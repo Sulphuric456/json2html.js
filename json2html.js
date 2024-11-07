@@ -1,25 +1,28 @@
-
+// json2html.js
 export default function json2html(data) {
-    let table = `<table data-user="kotayashwanth23@gmail.com">
-                  <thead>
-                    <tr><th>Name</th><th>Age</th><th>Gender</th></tr>
-                  </thead>
-                  <tbody>`;
-  
-    data.forEach(item => {
-      table += '<tr>';
-      
-      table += `<td>${item.Name}</td>`;
-      table += `<td>${item.Age}</td>`;
-      table += item.Gender ? `<td>${item.Gender}</td>` : `<td></td>`;
-      
-      table += '</tr>';
+    // Collect all unique keys to create the table headers
+    const headers = [...new Set(data.flatMap(Object.keys))];
+    
+    // Start building the HTML string
+    let html = `<table data-user="sgpujar04@gmail.com">\n<thead>\n<tr>`;
+    
+    // Add header cells
+    headers.forEach(header => {
+        html += `<th>${header}</th>`;
     });
-  
+    html += `</tr>\n</thead>\n<tbody>\n`;
+
+    // Add rows for each object in the data array
+    data.forEach(row => {
+        html += `<tr>`;
+        headers.forEach(header => {
+            html += `<td>${row[header] !== undefined ? row[header] : ""}</td>`;
+        });
+        html += `</tr>\n`;
+    });
+
+    // Close the table tags
+    html += `</tbody>\n</table>`;
     
-    table += '</tbody></table>';
-    
-    
-    return table;
-  }
-  
+    return html;
+}
